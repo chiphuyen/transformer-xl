@@ -20,7 +20,7 @@ parser = argparse.ArgumentParser(description='PyTorch Transformer Language Model
 parser.add_argument('--data', type=str, default='../data/wikitext-103',
                     help='location of the data corpus')
 parser.add_argument('--dataset', type=str, default='wt103',
-                    choices=['wt103', 'lm1b', 'enwik8', 'text8'],
+                    choices=['wt103', 'lm1b', 'enwik8', 'text8', 'ch76', 'libri'],
                     help='dataset name')
 parser.add_argument('--n_layer', type=int, default=12,
                     help='number of total layers')
@@ -196,12 +196,15 @@ te_iter = corpus.get_iterator('test', eval_batch_size, args.eval_tgt_len,
 # adaptive softmax / embedding
 cutoffs, tie_projs = [], [False]
 if args.adaptive:
-    assert args.dataset in ['wt103', 'lm1b']
-    if args.dataset == 'wt103':
+    assert args.dataset in ['wt103', 'lm1b', 'ch76', 'libri']
+    if args.dataset == 'wt103' or args.dataset == 'ch76':
         cutoffs = [20000, 40000, 200000]
         tie_projs += [True] * len(cutoffs)
     elif args.dataset == 'lm1b':
         cutoffs = [60000, 100000, 640000]
+        tie_projs += [False] * len(cutoffs)
+    elif args.dataset == 'libri':
+        cutoffs = [20000, 40000, 140000]
         tie_projs += [False] * len(cutoffs)
 
 ###############################################################################

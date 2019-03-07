@@ -2,9 +2,9 @@
 
 if [[ $1 == 'train' ]]; then
     echo 'Run training...'
-    python train.py \
+    CUDA_VISIBLE_DEVICES=0 python train.py \
         --cuda \
-        --data ../data/wikitext-103/ \
+        --data /home/chipn/data/wikitext-103/ \
         --dataset wt103 \
         --adaptive \
         --n_layer 16 \
@@ -22,14 +22,14 @@ if [[ $1 == 'train' ]]; then
         --mem_len 150 \
         --eval_tgt_len 150 \
         --batch_size 60 \
-        --multi_gpu \
-        --gpu0_bsz 4 \
+        # --multi_gpu \
+        # --gpu0_bsz 4 \
         ${@:2}
 elif [[ $1 == 'eval' ]]; then
     echo 'Run evaluation...'
-    python eval.py \
+    CUDA_VISIBLE_DEVICES=0 python eval.py \
         --cuda \
-        --data ../data/wikitext-103/ \
+        --data /home/chipn/data/wikitext-103/ \
         --dataset wt103 \
         --tgt_len 64 \
         --mem_len 640 \

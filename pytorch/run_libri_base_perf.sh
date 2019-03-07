@@ -5,14 +5,14 @@ if [[ $1 == 'train' ]]; then
     python train.py \
         --cuda \
         --data /home/chipn/data/librispeech/lm-data-unk/ \
-        --dataset lm1b \
+        --dataset libri \
         --adaptive \
-        --n_layer 18 \
-        --d_model 1024 \
+        --n_layer 8 \
+        --d_model 512 \
         --div_val 4 \
         --n_head 8 \
         --d_head 128 \
-        --d_inner 4096 \
+        --d_inner 2048 \
         --dropout 0.0 \
         --dropatt 0.0 \
         --optim adam \
@@ -22,9 +22,9 @@ if [[ $1 == 'train' ]]; then
         --tgt_len 32 \
         --mem_len 32 \
         --eval_tgt_len 32 \
-        --batch_size 224 \
+        --batch_size 448 \
         --multi_gpu \
-        --gpu0_bsz 32 \
+        --gpu0_bsz 224 \
         ${@:2}
 elif [[ $1 == 'eval' ]]; then
     echo 'Run evaluation...'

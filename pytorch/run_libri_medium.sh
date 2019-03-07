@@ -5,14 +5,14 @@ if [[ $1 == 'train' ]]; then
     python train.py \
         --cuda \
         --data /home/chipn/data/librispeech/lm-data-unk/ \
-        --dataset lm1b \
+        --dataset libri \
         --adaptive \
-        --n_layer 18 \
-        --d_model 1024 \
+        --n_layer 12 \
+        --d_model 768 \
         --div_val 4 \
         --n_head 8 \
         --d_head 128 \
-        --d_inner 4096 \
+        --d_inner 3072 \
         --dropout 0.0 \
         --dropatt 0.0 \
         --optim adam \

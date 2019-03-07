@@ -439,6 +439,7 @@ class AdaptiveEmbedding(nn.Module):
         self.d_embed = d_embed
 
         self.cutoffs = cutoffs + [n_token]
+        print('cutoffs', cutoffs)
         self.div_val = div_val
         self.d_proj = d_proj
 
@@ -458,7 +459,9 @@ class AdaptiveEmbedding(nn.Module):
             for i in range(len(self.cutoffs)):
                 l_idx, r_idx = self.cutoff_ends[i], self.cutoff_ends[i+1]
                 d_emb_i = d_embed // (div_val ** i)
+                print(r_idx, l_idx, d_emb_i)
                 self.emb_layers.append(nn.Embedding(r_idx-l_idx, d_emb_i))
+
                 self.emb_projs.append(nn.Parameter(torch.Tensor(d_proj, d_emb_i)))
 
     def forward(self, inp):
