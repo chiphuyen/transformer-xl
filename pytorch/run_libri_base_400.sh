@@ -7,7 +7,7 @@ if [[ $1 == 'train' ]]; then
         --data /home/chipn/data/librispeech/lm-data-400/ \
         --dataset libri \
         --adaptive \
-        --n_layer 8 \
+        --n_layer 12 \
         --d_model 512 \
         --div_val 4 \
         --n_head 8 \
@@ -22,16 +22,16 @@ if [[ $1 == 'train' ]]; then
         --tgt_len 32 \
         --mem_len 32 \
         --eval_tgt_len 32 \
-        --batch_size 224 \
+        --batch_size 512 \
         --multi_gpu \
-        --gpu0_bsz 32 \
+        --gpu0_bsz 512 \
         ${@:2}
 elif [[ $1 == 'eval' ]]; then
     echo 'Run evaluation...'
     python eval.py \
         --cuda \
         --data /home/chipn/data/librispeech/lm-data-400/ \
-        --work_dir LM-TFM-libri/20190307-135407 \
+        --work_dir LM-TFM-libri/ \
         --dataset libri \
         --batch_size 1 \
         --tgt_len 32 \
@@ -46,6 +46,7 @@ elif [[ $1 == 'score' ]]; then
         --data /home/chipn/data/jasper/ \
         --vocab_file /home/chipn/data/librispeech/lm-data-unk/1b_word_vocab.txt \
         --work_dir LM-TFM-libri/20190306-105034 \
+        --batch_size 1 \
         --tgt_len 32 \
         --mem_len 128 \
         --same_length \

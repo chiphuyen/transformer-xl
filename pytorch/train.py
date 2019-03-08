@@ -506,6 +506,14 @@ def train():
                 log_str += ' | bpc {:9.5f}'.format(val_loss / math.log(2))
             else:
                 log_str += ' | valid ppl {:9.3f}'.format(math.exp(val_loss))
+            ppl = math.exp(val_loss)
+            if train_step % (args.eval_interval * 4) == 0:
+                folder = os.path.join(args.work_dir, str(ppl))
+                os.makedirs(folder, exist_ok=True)
+                with open(os.path.join(folder, 'model.pt'), 'wb') as f:
+                    torch.save(model, f)
+                with open(os.path.join(folder, 'optimizer.pt'), 'wb') as f:
+                    torch.save(optimizer.state_dict(), f)
             logging(log_str)
             logging('-' * 100)
             # Save the model if the validation loss is the best we've seen so far.
