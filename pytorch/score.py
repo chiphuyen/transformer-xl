@@ -61,10 +61,10 @@ if args.same_length:
 
 # Load dataset
 # strings = ["a barrel's the jolliest bed going on the tramp i mean", "a bit late to secure accommodations isn't it"]
-strings = ["a bobbing lantern carried by an invisible man was all that came to welcome him", "i hate school", "i love school", "i love my mom", "i love my dad", "she's an engineer", "he's an engineer", "she's a nurse", "he's a nurse", "she's a manager", "he's a manager"]
+strings = ["eat don't the the the don't flower the", "i hate school", "i love school", "i love my mom", "i love my dad", "she's an engineer", "he's an engineer", "she's a nurse", "he's a nurse", "she's a manager", "he's a manager"]
 vocab = Vocab(vocab_file=args.vocab_file)
 vocab.build_vocab()
-sents = vocab.encode_sents([string.strip().lower().split() for string in strings])
+sents = vocab.encode_sents([['<S>'] + string.strip().lower().split() + ['<S>'] for string in strings])
 device = torch.device('cuda' if args.cuda else 'cpu')
 
 ###############################################################################
