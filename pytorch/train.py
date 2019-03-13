@@ -20,7 +20,7 @@ parser = argparse.ArgumentParser(description='PyTorch Transformer Language Model
 parser.add_argument('--data', type=str, default='../data/wikitext-103',
                     help='location of the data corpus')
 parser.add_argument('--dataset', type=str, default='wt103',
-                    choices=['wt103', 'lm1b', 'enwik8', 'text8', 'ch76', 'libri'],
+                    choices=['wt103', 'lm1b', 'enwik8', 'text8', 'ch76', 'libri', 'wsj'],
                     help='dataset name')
 parser.add_argument('--n_layer', type=int, default=12,
                     help='number of total layers')
@@ -196,7 +196,7 @@ te_iter = corpus.get_iterator('test', eval_batch_size, args.eval_tgt_len,
 # adaptive softmax / embedding
 cutoffs, tie_projs = [], [False]
 if args.adaptive:
-    assert args.dataset in ['wt103', 'lm1b', 'ch76', 'libri']
+    assert args.dataset in ['wt103', 'lm1b', 'ch76', 'libri', 'wsj']
     if args.dataset == 'wt103' or args.dataset == 'ch76':
         cutoffs = [20000, 40000, 200000]
         tie_projs += [True] * len(cutoffs)
@@ -205,6 +205,8 @@ if args.adaptive:
         tie_projs += [False] * len(cutoffs)
     elif args.dataset == 'libri':
         cutoffs = [20000, 40000, 140000]
+    elif args.dataset == 'wsj':
+        cutoffs = [10000, 20000, 50000]
         tie_projs += [False] * len(cutoffs)
 
 ###############################################################################
@@ -507,7 +509,7 @@ def train():
             else:
                 log_str += ' | valid ppl {:9.3f}'.format(math.exp(val_loss))
             ppl = math.exp(val_loss)
-            if train_step % (args.eval_interval * 4) == 0:
+            if train_step % (args.eval_interval * 2) == 0:
                 folder = os.path.join(args.work_dir, str(ppl))
                 os.makedirs(folder, exist_ok=True)
                 with open(os.path.join(folder, 'model.pt'), 'wb') as f:

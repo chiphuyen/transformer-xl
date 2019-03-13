@@ -61,7 +61,7 @@ if args.same_length:
 
 # Load dataset
 # strings = ["a barrel's the jolliest bed going on the tramp i mean", "a bit late to secure accommodations isn't it"]
-strings = ["eat don't the the the don't flower the", "i hate school", "i love school", "i love my mom", "i love my dad", "she's an engineer", "he's an engineer", "she's a nurse", "he's a nurse", "she's a manager", "he's a manager"]
+strings = ["they had one night in which to prepare for deach", "they had one night in which to prepare for death", "i hate school", "i love school", "the fox jumps on a grass", "the crox jump a la glass", "she's an engineer", "he's an engineer", "she's a nurse", "he's a nurse", "she's a manager", "he's a manager"]
 vocab = Vocab(vocab_file=args.vocab_file)
 vocab.build_vocab()
 sents = vocab.encode_sents([['<S>'] + string.strip().lower().split() + ['<S>'] for string in strings])
@@ -87,7 +87,7 @@ def score(sents, device):
             the sum of negative log softmax at all steps will favor long sentences
             it's better to use mean
             """
-            log_losses.append(loss.mean().item())
+            log_losses.append(loss.sum().item())
             logging('Took {:.2f}s'.format(time.time() - start_time))
             start_time = time.time()
     return log_losses
